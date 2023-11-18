@@ -1,5 +1,7 @@
 const dotenv = require("dotenv").config();
 const express = require("express");
+const tasks = require("./routes/tasks");
+const connectDB = require("./db/connect");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios");
@@ -13,6 +15,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+
+// get routes for aigo database
+app.use("/aigo", tasks);
 
 // get routes home, captcha, sendemail
 app.get("/", (req, res) => {
@@ -64,11 +69,10 @@ const PORT = process.env.PORT || 5000;
 // start function
 const start = async () => {
   try {
-    app.listen(PORT, () =>
-      console.log(`Server is listening on port ${PORT}...`)
-    );
-  } catch (error) {
-    console.log(error);
+    await connectDB(process.env.MONGO_URI);
+    app.listen(PORT, console.log(`server is listening on port ${PORT}...`));
+  } catch (err) {
+    console.log(err);
   }
 };
 
