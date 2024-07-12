@@ -3,6 +3,7 @@ const Menupreview = require("../models/menuPreview");
 const Introimage = require("../models/introImages");
 const Shortmenuitem = require("../models/shortmenuitem");
 const Side = require("../models/side");
+const Addon = require("../models/addon");
 const Storyitem = require("../models/storyitem");
 const Employee = require("../models/employees");
 const Mission = require("../models/mission");
@@ -48,6 +49,15 @@ const getAllSides = async (req, res) => {
   try {
     const sides = await Side.find({});
     res.status(200).json({ sides });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
+const getAllAddons = async (req, res) => {
+  try {
+    const addons = await Addon.find({});
+    res.status(200).json({ addons });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
@@ -107,6 +117,7 @@ module.exports = {
   getAllIntroImages,
   getAllShortMenuItems,
   getAllSides,
+  getAllAddons,
   getSingleMenuItem,
   getAllStoryItems,
   getAllEmployees,
